@@ -1,0 +1,641 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Leyendas del Rock Argentino",
+    "description": "Las Leyendas del Rock Argentino es una especificación de OpenAPI de ejemplo para probar herramientas y librerías de OpenAPI. Obtén todos los datos de [todos los artistas](#getAllArtists).\n\n>Inspirado por [Scalar Galaxy](https://galaxy.scalar.com/)\n\n## Recursos\n\n* https://github.com/enzonotario/vitepress-openapi\n* https://github.com/OAI/OpenAPI-Specification\n\n## Soporte Markdown\n\nTodas las descripciones *pueden* contener ~~mucho texto~~ **Markdown**. [Si GitHub admite la sintaxis](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax), es probable que nosotros también la admitamos. Incluso puedes crear [enlaces internos para hacer referencia a endpoints](#createArtist).\n\n<details>\n  <summary>Ejemplos</summary>\n\n  **Citas**\n\n  > Amo el Rock Argentino. <3\n\n  **Tablas**\n\n  | Característica    | Disponibilidad |\n  | ----------------- | -------------- |\n  | Soporte Markdown  | ✓              |\n\n  **Acordeón**\n\n  ```html\n  <details>\n    <summary>Usando etiquetas Details</summary>\n    <p>Ejemplo HTML</p>\n  </details>\n  ```\n\n  **Imágenes**\n\n  ¡Sí, también hay soporte para imágenes!\n\n  ![Imagen de ejemplo](https://images.placeholders.dev/?width=1280&height=720)\n\n</details>\n",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Enzo Notario",
+      "url": "https://enzonotario.me",
+      "email": "hi@enzonotario.me"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://stoplight.io/mocks/enzonotario/argentine-rock/122547792",
+      "description": "Servidor Mock"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    },
+    {
+      "apiKeyHeader": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Authentication",
+      "description": "Algunos endpoints son públicos, pero otros requieren autenticación. Proporcionamos todos los endpoints necesarios para crear una cuenta y autorizarte."
+    },
+    {
+      "name": "Artists",
+      "description": "Todo sobre los artistas del Rock Argentino"
+    }
+  ],
+  "paths": {
+    "/api/v1/artists": {
+      "get": {
+        "tags": ["Artists"],
+        "summary": "Obtener todos los artistas",
+        "description": "Obtén una lista de todos los artistas legendarios del Rock Argentino y explora sus contribuciones a la escena musical.",
+        "operationId": "getAllArtists",
+        "security": [{}],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/Artist"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "$ref": "#/components/schemas/PaginatedResource"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Artists"],
+        "summary": "Agregar un nuevo artista",
+        "description": "Agrega un nuevo artista legendario del Rock Argentino. ¡Asegúrate de que realmente merezca el título!",
+        "operationId": "createArtist",
+        "requestBody": {
+          "description": "Datos del artista",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Artist"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Creado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Artist"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Solicitud Incorrecta",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Prohibido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/artists/{artistId}": {
+      "get": {
+        "tags": ["Artists"],
+        "summary": "Obtener un artista",
+        "description": "Conoce más sobre un artista específico del Rock Argentino y su legado.",
+        "operationId": "getArtist",
+        "security": [{}],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/artistId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Artista Encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Artist"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Artista No Encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Artists"],
+        "summary": "Actualizar un artista",
+        "description": "Actualiza la información de un artista legendario del Rock Argentino. Asegúrate de proporcionar datos precisos.",
+        "operationId": "updateArtist",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/artistId"
+          }
+        ],
+        "requestBody": {
+          "description": "Datos del artista",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Artist"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Artist"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Solicitud Incorrecta",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Prohibido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Artists"],
+        "summary": "Eliminar un artista",
+        "operationId": "deleteArtist",
+        "description": "Este endpoint se utilizó para eliminar artistas. Desafortunadamente, eso causó mucha controversia. Por lo tanto, este endpoint ahora está en desuso y no debe ser utilizado.",
+        "deprecated": true,
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/artistId"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Solicitud Incorrecta",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Prohibido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/artists/{artistId}/albums": {
+      "get": {
+        "tags": ["Artists"],
+        "summary": "Obtener todos los álbumes",
+        "description": "Obtén una lista de todos los álbumes de un artista legendario del Rock Argentino.",
+        "operationId": "getAllAlbums",
+        "security": [{}],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/artistId"
+          },
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/Album"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "$ref": "#/components/schemas/PaginatedResource"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Artists"],
+        "summary": "Agregar un nuevo álbum",
+        "description": "Agrega un nuevo álbum a un artista legendario del Rock Argentino. ¡Asegúrate de que sea una obra maestra!",
+        "operationId": "createAlbum",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/artistId"
+          }
+        ],
+        "requestBody": {
+          "description": "Datos del álbum",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Album"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Creado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Album"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Solicitud Incorrecta",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Prohibido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/user/signup": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Crear un usuario",
+        "description": "Crea una cuenta de usuario para acceder a contenido exclusivo sobre las leyendas del Rock Argentino.",
+        "operationId": "createUser",
+        "security": [{}],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewUser"
+              },
+              "examples": {
+                "Carlos": {
+                  "value": {
+                    "name": "Carlos",
+                    "email": "carlos@rock-legends.com",
+                    "password": "i-love-rock"
+                  }
+                },
+                "Maria": {
+                  "value": {
+                    "name": "Maria",
+                    "email": "maria@rock-legends.com",
+                    "password": "rock-n-roll"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Creado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Solicitud Incorrecta",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      },
+      "apiKeyHeader": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-Key"
+      }
+    },
+    "parameters": {
+      "artistId": {
+        "name": "artistId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer",
+          "format": "int64",
+          "examples": [1]
+        }
+      },
+      "limit": {
+        "name": "limit",
+        "in": "query",
+        "description": "La cantidad de elementos a devolver",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "format": "int64",
+          "default": 10
+        }
+      },
+      "offset": {
+        "name": "offset",
+        "in": "query",
+        "description": "La cantidad de elementos a omitir antes de comenzar a recopilar el conjunto de resultados",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "format": "int64",
+          "default": 0
+        }
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Solicitud Incorrecta",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "Prohibido",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "No Encontrado",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "NewUser": {
+        "type": "object",
+        "required": ["name", "email", "password"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "examples": ["Carlos", "Maria"]
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "examples": ["carlos@rock-legends.com", "maria@rock-legends.com"]
+          },
+          "password": {
+            "type": "string",
+            "minLength": 8,
+            "examples": ["i-love-rock", "rock-n-roll"]
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "required": ["id", "name", "email"],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "examples": [1]
+          },
+          "name": {
+            "type": "string",
+            "examples": ["Carlos"]
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "examples": ["carlos@rock-legends.com"]
+          }
+        }
+      },
+      "Artist": {
+        "type": "object",
+        "required": ["id", "name"],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "examples": [1],
+            "x-variable": "artistId"
+          },
+          "name": {
+            "type": "string",
+            "examples": ["Charly García"]
+          },
+          "description": {
+            "type": ["string", "null"],
+            "examples": [
+              "Uno de los músicos de rock más influyentes en la historia argentina."
+            ]
+          },
+          "image": {
+            "type": "string",
+            "nullable": true,
+            "examples": ["https://cdn.rock-legends.com/photos/charly.jpg"]
+          },
+          "band": {
+            "type": "string",
+            "examples": ["Sui Generis"]
+          }
+        }
+      },
+      "Album": {
+        "type": "object",
+        "required": ["id", "name"],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "examples": [1]
+          },
+          "name": {
+            "type": "string",
+            "examples": ["La Máquina de Hacer Pájaros"]
+          },
+          "year": {
+            "type": "integer",
+            "format": "int64",
+            "examples": [1976]
+          },
+          "image": {
+            "type": "string",
+            "nullable": true,
+            "examples": ["https://cdn.rock-legends.com/photos/la-maquina.jpg"]
+          }
+        }
+      },
+      "PaginatedResource": {
+        "type": "object",
+        "properties": {
+          "meta": {
+            "type": "object",
+            "properties": {
+              "limit": {
+                "type": "integer",
+                "format": "int64",
+                "examples": [10]
+              },
+              "offset": {
+                "type": "integer",
+                "format": "int64",
+                "examples": [0]
+              },
+              "total": {
+                "type": "integer",
+                "format": "int64",
+                "examples": [100]
+              },
+              "next": {
+                "type": ["string", "null"],
+                "examples": ["/artists?limit=10&offset=10"]
+              }
+            }
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "description": "RFC 7807 (https://datatracker.ietf.org/doc/html/rfc7807)",
+        "properties": {
+          "type": {
+            "type": "string",
+            "examples": ["https://example.com/errors/generic-error"]
+          },
+          "title": {
+            "type": "string",
+            "examples": ["Algo salió mal aquí."]
+          },
+          "status": {
+            "type": "integer",
+            "format": "int64",
+            "examples": [403]
+          },
+          "detail": {
+            "type": "string",
+            "examples": [
+              "Desafortunadamente, no podemos proporcionar más información."
+            ]
+          }
+        }
+      }
+    }
+  }
+}
