@@ -7,7 +7,7 @@ hero:
   actions:
     - theme: alt
       text: English
-      link: /en/operations/getAllArtists
+      link: /operations/getAllArtists
     - theme: alt
       text: Español
       link: /es/operations/getAllArtists
