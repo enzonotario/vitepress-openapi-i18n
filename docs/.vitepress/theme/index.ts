@@ -1,7 +1,7 @@
 import DefaultTheme from 'vitepress/theme';
 import type { Theme } from 'vitepress';
 
-import { theme } from 'vitepress-openapi';
+import { theme } from 'vitepress-openapi/client';
 import 'vitepress-openapi/dist/style.css';
 
 export default {
